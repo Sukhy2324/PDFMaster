@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFMaster - Online PDF Tools</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --dark-color: #343a40;
+            --light-color: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--light-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .auth-buttons button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(74, 107, 255, 0.1);
+        }
+        
+        .signup-btn {
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            color: white;
+        }
+        
+        .signup-btn:hover {
+            background-color: #3a5bef;
+            border-color: #3a5bef;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .file-upload {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 2px dashed #ccc;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .file-upload i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .file-upload h3 {
+            margin-bottom: 15px;
+        }
+        
+        .file-upload p {
+            color: #777;
+            margin-bottom: 20px;
+        }
+        
+        .upload-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background-color: #3a5bef;
+        }
+        
+        /* Tools Section */
+        .tools-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tool-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-card i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .tool-card h3 {
+            margin-bottom: 10px;
+        }
+        
+        .tool-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Advanced Features Section */
+        .advanced-features {
+            background-color: var(--light-color);
+            padding: 60px 0;
+        }
+        
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .feature {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .feature h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .feature ul {
+            list-style-position: inside;
+            margin-bottom: 20px;
+        }
+        
+        .feature li {
+            margin-bottom: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--light-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: var(--light-color);
+            font-size: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+        
+        .tool-interface {
+            margin-top: 20px;
+        }
+        
+        .tool-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .option-group {
+            margin-bottom: 15px;
+        }
+        
+        .option-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .option-group input, 
+        .option-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .preview-area {
+            border: 1px dashed #ccc;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cancel-btn {
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #e1e1e1;
+        }
+        
+        .apply-btn {
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            color: white;
+        }
+        
+        .apply-btn:hover {
+            background-color: #3a5bef;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tool-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDFMaster</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#advanced">Advanced</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="login-btn">Log In</button>
+                    <button class="signup-btn">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Your Complete PDF Solution</h1>
+            <p>Edit, convert, merge, compress, and more - all your PDF needs in one place. Fast, secure, and completely free.</p>
+            
+            <div class="file-upload">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Upload Your PDF File</h3>
+                <p>Drag & drop your PDF file here or click to browse</p>
+                <button class="upload-btn">Select PDF File</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PDF Tools Section -->
+    <section class="tools-section" id="tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular PDF Tools</h2>
+                <p>All the tools you need to work with PDFs efficiently</p>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- Organize PDF -->
+                <div class="tool-card" onclick="openToolModal('organize')">
+                    <i class="fas fa-file-export"></i>
+                    <h3>Organize PDF</h3>
+                    <p>Rearrange, delete, or rotate pages in your PDF</p>
+                </div>
+                
+                <!-- Merge PDF -->
+                <div class="tool-card" onclick="openToolModal('merge')">
+                    <i class="fas fa-object-group"></i>
+                    <h3>Merge PDF</h3>
+                    <p>Combine multiple PDF files into one document</p>
+                </div>
+                
+                <!-- Split PDF -->
+                <div class="tool-card" onclick="openToolModal('split')">
+                    <i class="fas fa-cut"></i>
+                    <h3>Split PDF</h3>
+                    <p>Divide a PDF into multiple separate files</p>
+                </div>
+                
+                <!-- Remove Pages -->
+                <div class="tool-card" onclick="openToolModal('remove')">
+                    <i class="fas fa-minus-circle"></i>
+                    <h3>Remove Pages</h3>
+                    <p>Delete specific pages from your PDF</p>
+                </div>
+                
+                <!-- Extract Pages -->
+                <div class="tool-card" onclick="openToolModal('extract')">
+                    <i class="fas fa-file-download"></i>
+                    <h3>Extract Pages</h3>
+                    <p>Save specific pages as a new PDF</p>
+                </div>
+                
+                <!-- Compress PDF -->
+                <div class="tool-card" onclick="openToolModal('compress')">
+                    <i class="fas fa-compress-alt"></i>
+                    <h3>Compress PDF</h3>
+                    <p>Reduce PDF file size without losing quality</p>
+                </div>
+                
+                <!-- Convert to PDF -->
+                <div class="tool-card" onclick="openToolModal('convert-to')">
+                    <i class="fas fa-file-import"></i>
+                    <h3>Convert to PDF</h3>
+                    <p>Convert Word, Excel, PPT, JPG to PDF</p>
+                </div>
+                
+                <!-- Convert from PDF -->
+                <div class="tool-card" onclick="openToolModal('convert-from')">
+                    <i class="fas fa-file-export"></i>
+                    <h3>Convert from PDF</h3>
+                    <p>Convert PDF to Word, Excel, PPT, JPG</p>
+                </div>
+                
+                <!-- Edit PDF -->
+                <div class="tool-card" onclick="openToolModal('edit')">
+                    <i class="fas fa-edit"></i>
+                    <h3>Edit PDF</h3>
+                    <p>Edit text, images, and more in your PDF</p>
+                </div>
+                
+                <!-- OCR PDF -->
+                <div class="tool-card" onclick="openToolModal('ocr')">
+                    <i class="fas fa-eye"></i>
+                    <h3>OCR PDF</h3>
+                    <p>Extract text from scanned documents</p>
+                </div>
+                
+                <!-- Repair PDF -->
+                <div class="tool-card" onclick="openToolModal('repair')">
+                    <i class="fas fa-wrench"></i>
+                    <h3>Repair PDF</h3>
+                    <p>Fix corrupted or damaged PDF files</p>
+                </div>
+                
+                <!-- Add Watermark -->
+                <div class="tool-card" onclick="openToolModal('watermark')">
+                    <i class="fas fa-stamp"></i>
+                    <h3>Add Watermark</h3>
+                    <p>Add text or image watermark to PDF</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features Section -->
+    <section class="advanced-features" id="advanced">
+        <div class="container">
+            <div class="section-title">
+                <h2>Advanced PDF Features</h2>
+                <p>Professional tools for advanced PDF manipulation</p>
+            </div>
+            
+            <div class="features-container">
+                <div class="feature">
+                    <h3>PDF Page Spread Options</h3>
+                    <ul>
+                        <li>Single page view</li>
+                        <li>Two-page spread</li>
+                        <li>Cover page with single pages</li>
+                        <li>Custom spread patterns</li>
+                        <li>Page gap adjustment</li>
+                    </ul>
+                    <button class="upload-btn" onclick="openToolModal('spread')">Try Spread Editor</button>
+                </div>
+                
+                <div class="feature">
+                    <h3>Advanced Border Editing</h3>
+                    <ul>
+                        <li>Custom border styles</li>
+                        <li>Border color and thickness</li>
+                        <li>Page margin adjustment</li>
+                        <li>Bleed area setup</li>
+                        <li>Border presets</li>
+                    </ul>
+                    <button class="upload-btn" onclick="openToolModal('border')">Try Border Editor</button>
+                </div>
+                
+                <div class="feature">
+                    <h3>Professional PDF Tools</h3>
+                    <ul>
+                        <li>Batch processing</li>
+                        <li>PDF/A conversion</li>
+                        <li>Document comparison</li>
+                        <li>Redaction tools</li>
+                        <li>Digital signatures</li>
+                    </ul>
+                    <button class="upload-btn" onclick="openToolModal('pro')">Explore Pro Tools</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>PDF Tools</h3>
+                    <ul>
+                        <li><a href="#">Merge PDF</a></li>
+                        <li><a href="#">Split PDF</a></li>
+                        <li><a href="#">Compress PDF</a></li>
+                        <li><a href="#">Convert to PDF</a></li>
+                        <li><a href="#">Convert from PDF</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 PDFMaster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tool Modals -->
+    <div class="modal" id="toolModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Tool Title</h2>
+            
+            <div class="tool-interface">
+                <div class="file-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Your PDF File</h3>
+                    <p>Drag & drop your PDF file here or click to browse</p>
+                    <button class="upload-btn">Select PDF File</button>
+                </div>
+                
+                <div class="tool-options" id="toolOptions">
+                    <!-- Options will be dynamically inserted here -->
+                </div>
+                
+                <div class="preview-area" id="previewArea">
+                    <p>PDF preview will appear here after upload</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn cancel-btn" onclick="closeModal()">Cancel</button>
+                    <button class="action-btn apply-btn">Apply Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('toolModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const toolOptions = document.getElementById('toolOptions');
+        
+        function openToolModal(tool) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Set tool-specific content
+            switch(tool) {
+                case 'organize':
+                    modalTitle.textContent = 'Organize PDF';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label for="page-order">Page Order</label>
+                            <select id="page-order">
+                                <option value="original">Original Order</option>
+                                <option value="reverse">Reverse Order</option>
+                                <option value="custom">Custom Order</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="rotation">Rotation</label>
+                            <select id="rotation">
+                                <option value="0">No Rotation</option>
+                                <option value="90">90° Clockwise</option>
+                                <option value="180">180°</option>
+                                <option value="270">90° Counter-clockwise</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="page-size">Page Size</label>
+                            <select id="page-size">
+                                <option value="original">Original</option>
+                                <option value="a4">A4</option>
+                                <option value="letter">Letter</option>
+                                <option value="legal">Legal</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="page-margin">Page Margin (mm)</label>
+                            <input type="number" id="page-margin" value="10" min="0" max="50">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'merge':
+                    modalTitle.textContent = 'Merge PDFs';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label>Upload multiple PDF files to merge</label>
+                            <input type="file" multiple accept=".pdf">
+                        </div>
+                        <div class="option-group">
+                            <label for="merge-order">Merge Order</label>
+                            <select id="merge-order">
+                                <option value="alphabetical">Alphabetical</option>
+                                <option value="upload-order">Upload Order</option>
+                                <option value="custom">Custom Order</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="merge-page-range">Page Range</label>
+                            <input type="text" id="merge-page-range" placeholder="e.g., 1-5, 8, 10-12">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'split':
+                    modalTitle.textContent = 'Split PDF';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label for="split-method">Split Method</label>
+                            <select id="split-method">
+                                <option value="single">Every Page</option>
+                                <option value="range">Page Range</option>
+                                <option value="custom">Custom Pages</option>
+                                <option value="size">By File Size</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="split-pages">Pages to Split</label>
+                            <input type="text" id="split-pages" placeholder="e.g., 1, 3-5, 8">
+                        </div>
+                        <div class="option-group">
+                            <label for="split-max-size">Max File Size (MB)</label>
+                            <input type="number" id="split-max-size" value="5" min="1" max="50">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'edit':
+                    modalTitle.textContent = 'Edit PDF';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label for="edit-text">Edit Text</label>
+                            <select id="edit-text">
+                                <option value="add">Add Text</option>
+                                <option value="edit">Edit Existing</option>
+                                <option value="delete">Delete Text</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="edit-images">Edit Images</label>
+                            <select id="edit-images">
+                                <option value="add">Add Image</option>
+                                <option value="replace">Replace Image</option>
+                                <option value="delete">Delete Image</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="edit-font">Font</label>
+                            <select id="edit-font">
+                                <option value="arial">Arial</option>
+                                <option value="times">Times New Roman</option>
+                                <option value="courier">Courier</option>
+                                <option value="helvetica">Helvetica</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="edit-font-size">Font Size</label>
+                            <input type="number" id="edit-font-size" value="12" min="8" max="72">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'spread':
+                    modalTitle.textContent = 'PDF Page Spread';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label for="spread-type">Spread Type</label>
+                            <select id="spread-type">
+                                <option value="single">Single Pages</option>
+                                <option value="double">Two-Page Spread</option>
+                                <option value="cover">Cover Page + Single</option>
+                                <option value="custom">Custom Spread</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="spread-gap">Page Gap (mm)</label>
+                            <input type="number" id="spread-gap" value="5" min="0" max="50">
+                        </div>
+                        <div class="option-group">
+                            <label for="spread-cover">Cover Page Position</label>
+                            <select id="spread-cover">
+                                <option value="left">Left Side</option>
+                                <option value="right">Right Side</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="spread-bleed">Bleed Area (mm)</label>
+                            <input type="number" id="spread-bleed" value="3" min="0" max="10">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'border':
+                    modalTitle.textContent = 'PDF Border Editing';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label for="border-style">Border Style</label>
+                            <select id="border-style">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                                <option value="double">Double</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="border-color">Border Color</label>
+                            <input type="color" id="border-color" value="#000000">
+                        </div>
+                        <div class="option-group">
+                            <label for="border-width">Border Width (px)</label>
+                            <input type="number" id="border-width" value="1" min="1" max="10">
+                        </div>
+                        <div class="option-group">
+                            <label for="border-margin">Margin from Edge (mm)</label>
+                            <input type="number" id="border-margin" value="5" min="0" max="50">
+                        </div>
+                    `;
+                    break;
+                    
+                // Add more tool cases as needed
+                default:
+                    modalTitle.textContent = 'PDF Tool';
+                    toolOptions.innerHTML = `
+                        <div class="option-group">
+                            <label>Tool options will appear here</label>
+                        </div>
+                    `;
+            }
+        }
+        
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // File upload simulation
+        const uploadBtns = document.querySelectorAll('.upload-btn');
+        uploadBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // In a real app, this would open a file dialog
+                // For demo, we'll simulate a successful upload
+                const previewArea = document.getElementById('previewArea');
+                if (previewArea) {
+                    previewArea.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-check-circle" style="font-size: 48px; color: #4CAF50;"></i>
+                            <h3>File Uploaded Successfully</h3>
+                            <p>sample-document.pdf (2.4 MB)</p>
+                            <p>Now you can adjust the tool options and apply changes.</p>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
